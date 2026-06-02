@@ -32,4 +32,3 @@ INSTRUCCIONES DE USO
 3. Presione cualquier tecla para iniciar la competencia.
 4. Observe el avance aleatorio de los competidores.
 5. Al finalizar, se anunciará al ganador. Presione una tecla para salir.
-

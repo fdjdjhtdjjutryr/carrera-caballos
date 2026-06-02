@@ -24,7 +24,16 @@ int correr(Caballo c[], int n) {
     while (true) {
         for (int i = 0; i < n; i++) {
             mover(c[i]);
-            if (c[i].posicion >= META) {
+                bool todosLlegaron = true;
+
+            for(int j = 0; j < n; j++) {
+                if(c[j].posicion < META) {
+                    todosLlegaron = false;
+                    break;
+                }
+            }
+
+            if(todosLlegaron) {
                 hipodromo(c, n);
                 return i;
             }
@@ -32,11 +41,14 @@ int correr(Caballo c[], int n) {
         hipodromo(c, n);
         napms(100);
     }
+
+
+
 }
 
-void ganador(Caballo &c) {
-    mvprintw(12, 0, "*** GANADOR: %s ***", c.nombre);
-    mvprintw(13, 0, "Presiona una tecla para finalizar...");
+void ganador(Caballo &c, int n) {
+    mvprintw((n * 2) + 2, 0, "*** GANADOR: %s ***", c.nombre);
+    mvprintw((n * 2) + 4, 0, "Presiona una tecla para finalizar...");
     refresh();
     getch();
 }

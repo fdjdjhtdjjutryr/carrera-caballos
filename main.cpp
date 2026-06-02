@@ -24,24 +24,28 @@ int main() {
     }
 
     // Inicialización 
-    const int num_caballos = 4;
+    int num_caballos;
+    do {
+        printf("Cantidad de caballos (2-7): ");
+        scanf("%d", &num_caballos);
+    } while (num_caballos < 2 || num_caballos > 7);
     Caballo competidores[num_caballos];
-    
+
     for(int i = 0; i < num_caballos; i++) {
         sprintf(competidores[i].nombre, "Caballo %d", i + 1);
         competidores[i].posicion = 0;
     }
 
     hipodromo(competidores, num_caballos);
-    mvprintw(10, 0, "Presione cualquier tecla para iniciar la carrera...");
+    mvprintw((num_caballos * 2) + 2, 0, "Presione cualquier tecla para iniciar la carrera...");
     refresh();
     getch();
 
-    // Inicia la carerra
+    // Inicia la carrera
     int indice_ganador = correr(competidores, num_caballos);
-    
+
     // Ganador de la carrera
-    ganador(competidores[indice_ganador]);
+    ganador(competidores[indice_ganador], num_caballos);
 
     endwin();
     return 0;

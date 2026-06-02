@@ -14,6 +14,6 @@ struct Caballo {
 void hipodromo(Caballo c[], int n);
 void mover(Caballo &c);
 int correr(Caballo c[], int n);
-void ganador(Caballo &c);
+void ganador(Caballo &c, int n);
 
 #endif
