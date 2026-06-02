@@ -34,15 +34,33 @@ int main() {
     for(int i = 0; i < num_caballos; i++) {
         sprintf(competidores[i].nombre, "Caballo %d", i + 1);
         competidores[i].posicion = 0;
+        competidores[i].vueltas = 0;
+        competidores[i].distanciaTotal = 0;
     }
-
-    hipodromo(competidores, num_caballos);
+    int largoPista;
+    int numVueltas;
+    do {
+        printf("Largo de pista (30,40,50,60): ");
+        scanf("%d",&largoPista);
+    }
+    while(largoPista != 30 &&largoPista != 40 &&largoPista != 50 &&largoPista != 60);
+    
+    do {
+        printf("Numero de vueltas (1-4): ");
+        scanf("%d",&numVueltas);
+    }
+    while(numVueltas < 1 || numVueltas > 4);
+    printf("\n");
+    printf("Pista: %d metros\n", largoPista);
+    printf("Vueltas: %d\n", numVueltas);
+    printf("Meta total: %d metros\n", largoPista * numVueltas);
+    hipodromo(competidores, num_caballos, largoPista);
     mvprintw((num_caballos * 2) + 2, 0, "Presione cualquier tecla para iniciar la carrera...");
     refresh();
     getch();
 
     // Inicia la carrera
-    int indice_ganador = correr(competidores, num_caballos);
+    int indice_ganador = correr(competidores,num_caballos,largoPista,numVueltas);
 
     // Ganador de la carrera
     ganador(competidores[indice_ganador], num_caballos);
