@@ -3,7 +3,7 @@
 #include <cstring>
 #include <cstdio>
 #include <pthread.h>
-int ganadorGlobal = -1;
+int ganadorGlobal = -1;//registra el primer caballo que alcanza la meta
 
 void hipodromo(Caballo c[], int n, int largoPista) {
     clear();
@@ -60,8 +60,7 @@ void* correrCaballo(void* arg){
             datos->caballo->termino = true;
 
             if(ganadorGlobal == -1){
-                ganadorGlobal =
-                    atoi(datos->caballo->nombre + 8) - 1;
+                ganadorGlobal = atoi(datos->caballo->nombre + 8) - 1;
             }
         }
 
@@ -93,12 +92,7 @@ void preparar_carrera(
         printf("Largo de pista (30,40,50,60): ");
         scanf("%d", &largoPista);
     }
-    while(
-        largoPista != 30 &&
-        largoPista != 40 &&
-        largoPista != 50 &&
-        largoPista != 60
-    );
+    while(largoPista != 30 && largoPista != 40 && argoPista != 50 && largoPista != 60);
 
     do {
         printf("Numero de vueltas (1-4): ");
@@ -108,9 +102,7 @@ void preparar_carrera(
 
     for(int i = 0; i < numCaballos; i++) {
 
-        sprintf(c[i].nombre,
-                "Caballo %d",
-                i + 1);
+        sprintf(c[i].nombre,"Caballo %d",i + 1);
 
         c[i].posicion = 0;
         c[i].vueltas = 0;
