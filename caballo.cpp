@@ -92,7 +92,7 @@ void preparar_carrera(
         printf("Largo de pista (30,40,50,60): ");
         scanf("%d", &largoPista);
     }
-    while(largoPista != 30 && largoPista != 40 && argoPista != 50 && largoPista != 60);
+    while(largoPista != 30 && largoPista != 40 && largoPista != 50 && largoPista != 60);
 
     do {
         printf("Numero de vueltas (1-4): ");
