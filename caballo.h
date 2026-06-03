@@ -2,6 +2,8 @@
 #define CABALLO_H
 
 #include <ncurses.h>
+#include <pthread.h>
+
 
 #define META 100
 #define MAX_NOMBRE 20
@@ -11,11 +13,26 @@ struct Caballo {
     int posicion;
     int vueltas;
     int distanciaTotal;
+    bool termino;
+};
+
+struct HiloCaballo{
+    Caballo* caballo;
+    int largoPista;
+    int numVueltas;
 };
 
 void hipodromo(Caballo c[], int n, int largoPista);
 void mover(Caballo &c, int largoPista);
-int correr(Caballo c[], int n, int largoPista, int numVueltas);
+//int correr(Caballo c[], int n, int largoPista, int numVueltas);
+void* correrCaballo(void* arg);
 void ganador(Caballo &c, int n);
+
+void preparar_carrera(
+    Caballo c[],
+    int &numCaballos,
+    int &largoPista,
+    int &numVueltas
+);
 
 #endif

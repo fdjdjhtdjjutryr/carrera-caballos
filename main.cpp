@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cstdio>
 #include "caballo.h"
+#include <pthread.h>
 
 int main() {
     // Configuración inicial
@@ -12,7 +13,9 @@ int main() {
     noecho(); 
     curs_set(0);
 
-    // Validación de tamaño)
+    
+
+    // Validacion de tamaño
     int rows, cols;
     getmaxyx(stdscr, rows, cols);
     if (cols < META + 20) {
@@ -23,33 +26,22 @@ int main() {
         return 1;
     }
 
-    // Inicialización 
+    // Inicializacion 
     int num_caballos;
-    do {
-        printf("Cantidad de caballos (2-7): ");
-        scanf("%d", &num_caballos);
-    } while (num_caballos < 2 || num_caballos > 7);
-    Caballo competidores[num_caballos];
-
-    for(int i = 0; i < num_caballos; i++) {
-        sprintf(competidores[i].nombre, "Caballo %d", i + 1);
-        competidores[i].posicion = 0;
-        competidores[i].vueltas = 0;
-        competidores[i].distanciaTotal = 0;
-    }
     int largoPista;
     int numVueltas;
-    do {
-        printf("Largo de pista (30,40,50,60): ");
-        scanf("%d",&largoPista);
-    }
-    while(largoPista != 30 &&largoPista != 40 &&largoPista != 50 &&largoPista != 60);
-    
-    do {
-        printf("Numero de vueltas (1-4): ");
-        scanf("%d",&numVueltas);
-    }
-    while(numVueltas < 1 || numVueltas > 4);
+
+    Caballo competidores[7];
+
+    preparar_carrera(
+        competidores,
+        num_caballos,
+        largoPista,
+        numVueltas
+    );
+
+    pthread_t hilos[num_caballos];
+    HiloCaballo datos[num_caballos];
     printf("\n");
     printf("Pista: %d metros\n", largoPista);
     printf("Vueltas: %d\n", numVueltas);
@@ -59,11 +51,40 @@ int main() {
     refresh();
     getch();
 
+    // crear hilos
+    for(int i = 0; i < num_caballos; i++){
+        datos[i] = { &competidores[i], largoPista, numVueltas };
+        pthread_create(&hilos[i], NULL, correrCaballo, &datos[i]);
+    }
+    bool todosTerminaron = false;
+
+    while(!todosTerminaron){
+        hipodromo(competidores, num_caballos, largoPista);
+
+        todosTerminaron = true;
+        int metaFinal = largoPista * numVueltas;
+
+        for(int i = 0; i < num_caballos; i++){
+            if(competidores[i].distanciaTotal < metaFinal){
+                todosTerminaron = false;
+                break;
+            }
+        }
+
+        napms(100);
+    }
+    for(int i = 0; i < num_caballos; i++){
+    pthread_join(hilos[i], NULL);
+    }
+
+    extern int ganadorGlobal;
+
+
     // Inicia la carrera
-    int indice_ganador = correr(competidores,num_caballos,largoPista,numVueltas);
+    //int indice_ganador = correr(competidores,num_caballos,largoPista,numVueltas);
 
     // Ganador de la carrera
-    ganador(competidores[indice_ganador], num_caballos);
+    ganador(competidores[ganadorGlobal],num_caballos);
 
     endwin();
     return 0;
