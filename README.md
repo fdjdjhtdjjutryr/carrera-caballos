@@ -1,34 +1,32 @@
-# carrera-caballos
-TAREA 1: CARRERA DE CABALLOS UCSC
-SISTEMAS OPERATIVOS 
+Carrera de Caballos - Tarea 2 (UCSC)
+Asignatura: Sistemas Operativos (IN1077C)
 
-INTEGRANTES:
+ Integrantes
 - Oscar González
 - Jeremy Mendoza
 - Dan Ocampo
 
-Este programa simula una carrera de 4 caballos utilizando una 
-metodología de programación modular en C++. La interfaz gráfica 
-se despliega en la terminal mediante la biblioteca ncurses.h.
+ Descripción del Proyecto
+Este programa es una simulación interactiva y modular en C++ de una carrera de caballos utilizando Hebras POSIX pthread.h para el control concurrente de cada competidor y la biblioteca ncurses  para el renderizado gráfico de la interfaz en modalidad texto. 
 
-- Compilador g++ (GCC).
-- Biblioteca ncurses (libncurses5-dev).
-- Entorno Linux o WSL (Windows Subsystem for Linux).
+A diferencia de la versión anterior, esta entrega incorpora:
+1. Lógica de Avance Probabilística: Los hilos calculan de manera independiente su probabilidad de avance (75% de éxito por ciclo).
+2. Sincronización por Mutex: Implementación de exclusión mutua para evitar condiciones de carrera en la línea de meta, asegurando un registro del orden de llegada.
+3. Métricas Globales: Despliegue en tiempo real de la sumatoria total de metros recorridos y vueltas completadas por todos los hilos en carrera.
+4. Tabla de Posiciones Dinámica: Al finalizar la competencia, se despliega el podio completo con el orden de llegada exacto de todos los competidores (desde el 1° hasta el último lugar).
+5. Ciclo de Reconfiguración: Permite al usuario reiniciar y configurar parámetros de una nueva carrera de forma interactiva sin salir de la aplicación.
 
-El código está organizado de forma modular para permitir la 
-reutilización de funciones:
-- caballo.h: Interfaz de la biblioteca 
-- caballo.cpp: Implementación de la lógica 
-- main.cpp: Programa principal 
+Requisitos del Sistema
+- Sistema Operativo: Entorno Linux Nativo o WSL (Windows Subsystem for Linux).
+- Compilador: g++ (GCC) con soporte para estándar moderno de C++.
+- Librerías de Desarrollo: - libncurses6 y libncurses-dev (Manejo de pantallas en consola).
+- Componente nativo de hilos POSIX (pthread).
 
-Para compilar el proyecto, ejecute en la terminal:
-- cd /ruta/a/tu/carpeta/carrera-caballos
-- g++ main.cpp caballo.cpp -o carrera -lncurses
+ Instrucciones de Instalación (WSL / Linux)
 
-INSTRUCCIONES DE USO
-1. Ejecute el programa con: ./carrera
-2. Si la terminal es muy pequeña, el programa mostrará un error. 
-   Deberá maximizar la ventana y volver a ejecutar.
-3. Presione cualquier tecla para iniciar la competencia.
-4. Observe el avance aleatorio de los competidores.
-5. Al finalizar, se anunciará al ganador. Presione una tecla para salir.
+1. Instalar dependencias del sistema:
+   Si ejecutas el proyecto por primera vez en tu distribución, asegúrate de tener el compilador y las librerías instaladas corriendo en la terminal:
+   bash
+   sudo apt update && sudo apt install -y build-essential libncurses6 libncurses-dev
+2. cd /ruta/a/tu/carpeta/carrera-caballos
+3. g++ main.cpp caballo.cpp -o carrera -lncurses -lpthread
